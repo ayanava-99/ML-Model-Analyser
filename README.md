@@ -41,6 +41,7 @@ A practical tool for Machine Learning Engineers to diagnose model underperforman
 3.  **Perform Diagnosis:**
     - Enter your model's Training and Validation Accuracy/Loss.
     - Input basic dataset statistics (Samples, Features, Class Balance).
+    - Select your preferred model (e.g., `gemini-1.5-flash` or `gemini-1.5-pro`).
     - Click **Run Diagnosis**.
 
 ## Structure

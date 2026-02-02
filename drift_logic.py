@@ -101,7 +101,7 @@ def calculate_drift_stats(ref_df, curr_df):
         
     return report
 
-def explain_drift(drift_report, api_key_input=None):
+def explain_drift(drift_report, api_key_input=None, model_name="gemini-1.5-flash"):
     """
     Generate an LLM explanation for the drift report.
     """
@@ -113,7 +113,7 @@ def explain_drift(drift_report, api_key_input=None):
         return "Error: No API Key provided."
         
     genai.configure(api_key=api_key)
-    model = genai.GenerativeModel('gemini-1.5-pro')
+    model = genai.GenerativeModel(model_name)
     
     # Filter for only drifting features to keep prompt short
     drifting_num = [d for d in drift_report["numerical_drift"] if d["drift_detected"]]

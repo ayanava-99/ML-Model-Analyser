@@ -119,7 +119,7 @@ def calculate_health_score(results):
         
     return final_score, status
 
-def generate_health_summary(results, score, status, api_key_input=None):
+def generate_health_summary(results, score, status, api_key_input=None, model_name="gemini-1.5-flash"):
     """
     LLM Summary of dataset health.
     """
@@ -128,7 +128,7 @@ def generate_health_summary(results, score, status, api_key_input=None):
         return "Error: No API Key provided."
         
     genai.configure(api_key=api_key)
-    model = genai.GenerativeModel('gemini-1.5-pro')
+    model = genai.GenerativeModel(model_name)
     
     # Collect top issues for the prompt
     issues = []

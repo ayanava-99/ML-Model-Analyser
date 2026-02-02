@@ -55,7 +55,7 @@ def calculate_rules(metrics, stats):
 
     return signals
 
-def diagnose_failure(metrics, stats, rules, api_key_input=None):
+def diagnose_failure(metrics, stats, rules, api_key_input=None, model_name="gemini-1.5-flash"):
     """
     Uses LLM to provide a detailed diagnosis.
     """
@@ -67,7 +67,7 @@ def diagnose_failure(metrics, stats, rules, api_key_input=None):
         return "Error: No API Key provided. Please check your environment variables or sidebar input."
 
     genai.configure(api_key=api_key)
-    model = genai.GenerativeModel('gemini-1.5-pro')
+    model = genai.GenerativeModel(model_name)
 
     # Construct the prompt
     prompt = f"""

@@ -28,6 +28,13 @@ with st.sidebar:
     )
     st.info("The API key is used for LLM analysis.")
 
+    model_name = st.selectbox(
+        "Select Gemini Model",
+        ["gemini-1.5-flash", "gemini-1.5-pro", "gemini-pro"],
+        index=0,
+        help="Select the Gemini model to use. 'flash' is faster and cheaper, 'pro' is more capable."
+    )
+
 # Tabs
 tab1, tab2, tab3 = st.tabs(["🔍 Model Diagnosis", "📊 Dataset Shift & Drift", "🏥 Dataset Health"])
 
@@ -83,7 +90,7 @@ with tab1:
             st.write("Computing signals...")
             rules = calculate_rules(metrics, stats)
             st.write("Consulting LLM...")
-            diagnosis = diagnose_failure(metrics, stats, rules, api_key_input)
+            diagnosis = diagnose_failure(metrics, stats, rules, api_key_input, model_name)
             status.update(label="Complete!", state="complete", expanded=False)
 
         if rules:
@@ -196,7 +203,7 @@ with tab2:
 
                 # LLM Explanation
                 with st.spinner("Generating Explanations with LLM..."):
-                    explanation = explain_drift(report, api_key_input)
+                    explanation = explain_drift(report, api_key_input, model_name)
                 
                 st.subheader("🧠 AI Drift Explanation")
                 st.markdown(explanation)
@@ -351,7 +358,7 @@ with tab3:
 
                 # 3. LLM Summary
                 with st.spinner("Generating Health Summary..."):
-                    health_summary = generate_health_summary(quality_report, score, status, api_key_input)
+                    health_summary = generate_health_summary(quality_report, score, status, api_key_input, model_name)
                 
                 st.subheader("🧠 AI Health Summary")
                 st.markdown(health_summary)
