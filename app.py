@@ -8,13 +8,13 @@ import os
 
 # Page Config
 st.set_page_config(
-    page_title="ML Model Failure Diagnosis Engine",
+    page_title="ML Model Analyser",
     page_icon="🩺",
     layout="wide"
 )
 
 # Title and Description
-st.title("🩺 ML Model Failure Diagnosis Engine")
+st.title("🩺 ML Model Analyser")
 
 # Sidebar - API Key Configuration
 with st.sidebar:

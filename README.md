@@ -1,4 +1,4 @@
-# ML Model Failure Diagnosis Engine
+# ML Model Analyser
 
 A practical tool for Machine Learning Engineers to diagnose model underperformance using training metrics, dataset statistics, and rule-based heuristics augmented by LLM reasoning.
 
