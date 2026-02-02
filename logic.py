@@ -1,6 +1,6 @@
 import os
 import streamlit as st
-from openai import OpenAI
+import google.generativeai as genai
 from dotenv import load_dotenv
 
 # Load environment variables
@@ -55,7 +55,7 @@ def calculate_rules(metrics, stats):
 
     return signals
 
-def diagnose_failure(metrics, stats, rules, api_key_input=None, base_url="https://api.openai.com/v1"):
+def diagnose_failure(metrics, stats, rules, api_key_input=None):
     """
     Uses LLM to provide a detailed diagnosis.
     """
@@ -66,7 +66,8 @@ def diagnose_failure(metrics, stats, rules, api_key_input=None, base_url="https:
     if not api_key:
         return "Error: No API Key provided. Please check your environment variables or sidebar input."
 
-    client = OpenAI(api_key=api_key, base_url=base_url)
+    genai.configure(api_key=api_key)
+    model = genai.GenerativeModel('gemini-1.5-pro')
 
     # Construct the prompt
     prompt = f"""
@@ -110,14 +111,7 @@ Tone: Professional, concise, technical. No generic fluff.
 """
 
     try:
-        response = client.chat.completions.create(
-            model="gpt-4o-mini", # Using a standard cost-effective model, user can change if needed
-            messages=[
-                {"role": "system", "content": "You are a helpful expert ML Engineering assistant."},
-                {"role": "user", "content": prompt}
-            ],
-            temperature=0.3
-        )
-        return response.choices[0].message.content
+        response = model.generate_content(prompt)
+        return response.text
     except Exception as e:
         return f"Error communicating with LLM: {str(e)}"

@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from openai import OpenAI
+import google.generativeai as genai
 import os
 
 def check_quality(df):
@@ -119,7 +119,7 @@ def calculate_health_score(results):
         
     return final_score, status
 
-def generate_health_summary(results, score, status, api_key_input=None, base_url="https://api.openai.com/v1"):
+def generate_health_summary(results, score, status, api_key_input=None):
     """
     LLM Summary of dataset health.
     """
@@ -127,7 +127,8 @@ def generate_health_summary(results, score, status, api_key_input=None, base_url
     if not api_key:
         return "Error: No API Key provided."
         
-    client = OpenAI(api_key=api_key, base_url=base_url)
+    genai.configure(api_key=api_key)
+    model = genai.GenerativeModel('gemini-1.5-pro')
     
     # Collect top issues for the prompt
     issues = []
@@ -174,14 +175,7 @@ OUTPUT FORMAT (Markdown):
 """
 
     try:
-        response = client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=[
-                {"role": "system", "content": "You are a helpful expert ML Data Engineer assistant."},
-                {"role": "user", "content": prompt}
-            ],
-            temperature=0.3
-        )
-        return response.choices[0].message.content
+        response = model.generate_content(prompt)
+        return response.text
     except Exception as e:
         return f"Error communicating with LLM: {str(e)}"

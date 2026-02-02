@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 from scipy.stats import ks_2samp
-from openai import OpenAI
+import google.generativeai as genai
 import os
 
 def calculate_drift_stats(ref_df, curr_df):
@@ -101,7 +101,7 @@ def calculate_drift_stats(ref_df, curr_df):
         
     return report
 
-def explain_drift(drift_report, api_key_input=None, base_url="https://api.openai.com/v1"):
+def explain_drift(drift_report, api_key_input=None):
     """
     Generate an LLM explanation for the drift report.
     """
@@ -112,7 +112,8 @@ def explain_drift(drift_report, api_key_input=None, base_url="https://api.openai
     if not api_key:
         return "Error: No API Key provided."
         
-    client = OpenAI(api_key=api_key, base_url=base_url)
+    genai.configure(api_key=api_key)
+    model = genai.GenerativeModel('gemini-1.5-pro')
     
     # Filter for only drifting features to keep prompt short
     drifting_num = [d for d in drift_report["numerical_drift"] if d["drift_detected"]]
@@ -149,14 +150,7 @@ Provide the response in Markdown.
 """
 
     try:
-        response = client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=[
-                {"role": "system", "content": "You are a helpful expert ML Engineering assistant."},
-                {"role": "user", "content": prompt}
-            ],
-            temperature=0.3
-        )
-        return response.choices[0].message.content
+        response = model.generate_content(prompt)
+        return response.text
     except Exception as e:
         return f"Error communicating with LLM: {str(e)}"

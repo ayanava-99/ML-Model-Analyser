@@ -19,20 +19,14 @@ st.title("🩺 ML Model Failure Diagnosis Engine")
 # Sidebar - API Key Configuration
 with st.sidebar:
     st.header("Configuration")
-    api_key_env = os.getenv("LLM_API_KEY")
+    api_key_env = os.getenv("GEMINI_API_KEY")
     api_key_input = st.text_input(
-        "OpenAI API Key",
+        "Gemini API Key",
         value=api_key_env if api_key_env else "",
         type="password",
-        help="Enter your OpenAI API Key here if not set in environment variables."
+        help="Enter your Google Gemini API Key here if not set in environment variables."
     )
     st.info("The API key is used for LLM analysis.")
-    
-    base_url_input = st.text_input(
-        "API Base URL (Optional)",
-        value="https://api.openai.com/v1",
-        help="Enter the base URL for your LLM provider (e.g., Forefront, Together AI)."
-    )
 
 # Tabs
 tab1, tab2, tab3 = st.tabs(["🔍 Model Diagnosis", "📊 Dataset Shift & Drift", "🏥 Dataset Health"])
@@ -89,7 +83,7 @@ with tab1:
             st.write("Computing signals...")
             rules = calculate_rules(metrics, stats)
             st.write("Consulting LLM...")
-            diagnosis = diagnose_failure(metrics, stats, rules, api_key_input, base_url_input)
+            diagnosis = diagnose_failure(metrics, stats, rules, api_key_input)
             status.update(label="Complete!", state="complete", expanded=False)
 
         if rules:
@@ -202,7 +196,7 @@ with tab2:
 
                 # LLM Explanation
                 with st.spinner("Generating Explanations with LLM..."):
-                    explanation = explain_drift(report, api_key_input, base_url_input)
+                    explanation = explain_drift(report, api_key_input)
                 
                 st.subheader("🧠 AI Drift Explanation")
                 st.markdown(explanation)
@@ -357,7 +351,7 @@ with tab3:
 
                 # 3. LLM Summary
                 with st.spinner("Generating Health Summary..."):
-                    health_summary = generate_health_summary(quality_report, score, status, api_key_input, base_url_input)
+                    health_summary = generate_health_summary(quality_report, score, status, api_key_input)
                 
                 st.subheader("🧠 AI Health Summary")
                 st.markdown(health_summary)

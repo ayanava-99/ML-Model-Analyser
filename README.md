@@ -7,7 +7,7 @@ A practical tool for Machine Learning Engineers to diagnose model underperforman
 ## Features
 
 - **Rule-based Diagnostics**: Instantly detects common issues like Overfitting, Underfitting, Class Imbalance, and Small Data Regimes.
-- **LLM-Powered Reasoning**: Uses an LLM (e.g., GPT-4o-mini) to provide a deep-dive analysis, explaining *why* the failure is happening and suggesting concrete engineering fixes.
+- **LLM-Powered Reasoning**: Uses Google Gemini (e.g., gemini-1.5-pro) to provide a deep-dive analysis, explaining *why* the failure is happening and suggesting concrete engineering fixes.
 - **Interactive UI**: Built with Streamlit for a clean, responsive experience.
 - **Privacy Focused**: Metrics and stats are sent to the LLM, not your actual dataset.
 
@@ -32,10 +32,10 @@ A practical tool for Machine Learning Engineers to diagnose model underperforman
     ```
 
 2.  **Configuration:**
-    - You can provide your OpenAI API Key directly in the sidebar.
+    - You can provide your Gemini API Key directly in the sidebar.
     - Alternatively, set it in your environment (or a `.env` file):
         ```bash
-        export LLM_API_KEY='sk-...'
+        export GEMINI_API_KEY='AIza...'
         ```
 
 3.  **Perform Diagnosis:**
