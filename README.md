@@ -7,7 +7,8 @@ A practical tool for Machine Learning Engineers to diagnose model underperforman
 ## Features
 
 - **Rule-based Diagnostics**: Instantly detects common issues like Overfitting, Underfitting, Class Imbalance, and Small Data Regimes.
-- **LLM-Powered Reasoning**: Uses Google Gemini (e.g., gemini-1.5-pro) to provide a deep-dive analysis, explaining *why* the failure is happening and suggesting concrete engineering fixes.
+- **LLM-Powered Reasoning**: Uses **Groq API** (e.g., Llama-3-70b) to provide a deep-dive analysis.
+- **Fast Inference**: Leverages Groq's LPU for near-instant results.
 - **Interactive UI**: Built with Streamlit for a clean, responsive experience.
 - **Privacy Focused**: Metrics and stats are sent to the LLM, not your actual dataset.
 
@@ -31,17 +32,13 @@ A practical tool for Machine Learning Engineers to diagnose model underperforman
     streamlit run app.py
     ```
 
-2.  **Configuration:**
-    - You can provide your Gemini API Key directly in the sidebar.
-    - Alternatively, set it in your environment (or a `.env` file):
-        ```bash
-        export GEMINI_API_KEY='AIza...'
-        ```
+3.  **Configuration:**
+    - Get a free API Key from [console.groq.com](https://console.groq.com).
+    - Provide it in the sidebar or set `GROQ_API_KEY` environment variable.
 
-3.  **Perform Diagnosis:**
-    - Enter your model's Training and Validation Accuracy/Loss.
-    - Input basic dataset statistics (Samples, Features, Class Balance).
-    - Select your preferred model (e.g., `gemini-1.5-flash` or `gemini-1.5-pro`).
+4.  **Perform Diagnosis:**
+    - Enter metrics and stats.
+    - Select a model (e.g., **llama3-70b-8192**).
     - Click **Run Diagnosis**.
 
 ## Structure

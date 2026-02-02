@@ -1,6 +1,6 @@
 import os
 import streamlit as st
-import google.generativeai as genai
+from openai import OpenAI
 from dotenv import load_dotenv
 
 # Load environment variables
@@ -66,8 +66,10 @@ def diagnose_failure(metrics, stats, rules, api_key_input=None, model_name="gemi
     if not api_key:
         return "Error: No API Key provided. Please check your environment variables or sidebar input."
 
-    genai.configure(api_key=api_key)
-    model = genai.GenerativeModel(model_name)
+    client = OpenAI(
+        base_url="https://api.groq.com/openai/v1",
+        api_key=api_key
+    )
 
     # Construct the prompt
     prompt = f"""
@@ -111,7 +113,14 @@ Tone: Professional, concise, technical. No generic fluff.
 """
 
     try:
-        response = model.generate_content(prompt)
-        return response.text
+        response = client.chat.completions.create(
+            model=model_name,
+            messages=[
+                {"role": "system", "content": "You are a helpful expert ML Engineering assistant."},
+                {"role": "user", "content": prompt}
+            ],
+            temperature=0.3
+        )
+        return response.choices[0].message.content
     except Exception as e:
         return f"Error communicating with LLM: {str(e)}"

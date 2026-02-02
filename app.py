@@ -19,20 +19,20 @@ st.title("🩺 ML Model Failure Diagnosis Engine")
 # Sidebar - API Key Configuration
 with st.sidebar:
     st.header("Configuration")
-    api_key_env = os.getenv("GEMINI_API_KEY")
+    api_key_env = os.getenv("GROQ_API_KEY")
     api_key_input = st.text_input(
-        "Gemini API Key",
+        "Groq API Key",
         value=api_key_env if api_key_env else "",
         type="password",
-        help="Enter your Google Gemini API Key here if not set in environment variables."
+        help="Enter your Groq API Key here. Get one for free at console.groq.com."
     )
     st.info("The API key is used for LLM analysis.")
 
     model_name = st.selectbox(
-        "Select Gemini Model",
-        ["gemini-1.5-flash", "gemini-1.5-pro", "gemini-pro"],
+        "Select Groq Model",
+        ["llama3-70b-8192", "mixtral-8x7b-32768", "llama3-8b-8192", "gemma2-9b-it"],
         index=0,
-        help="Select the Gemini model to use. 'flash' is faster and cheaper, 'pro' is more capable."
+        help="Select the model to use. 'llama3-70b' is generally the best all-rounder."
     )
 
 # Tabs

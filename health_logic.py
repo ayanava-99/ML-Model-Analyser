@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-import google.generativeai as genai
+from openai import OpenAI
 import os
 
 def check_quality(df):
@@ -127,8 +127,10 @@ def generate_health_summary(results, score, status, api_key_input=None, model_na
     if not api_key:
         return "Error: No API Key provided."
         
-    genai.configure(api_key=api_key)
-    model = genai.GenerativeModel(model_name)
+    client = OpenAI(
+        base_url="https://api.groq.com/openai/v1",
+        api_key=api_key
+    )
     
     # Collect top issues for the prompt
     issues = []
@@ -175,7 +177,14 @@ OUTPUT FORMAT (Markdown):
 """
 
     try:
-        response = model.generate_content(prompt)
-        return response.text
+        response = client.chat.completions.create(
+            model=model_name,
+            messages=[
+                {"role": "system", "content": "You are a helpful expert ML Data Engineer assistant."},
+                {"role": "user", "content": prompt}
+            ],
+            temperature=0.3
+        )
+        return response.choices[0].message.content
     except Exception as e:
         return f"Error communicating with LLM: {str(e)}"
