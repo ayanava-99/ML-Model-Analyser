@@ -13,6 +13,68 @@ st.set_page_config(
     layout="wide"
 )
 
+# Custom CSS
+st.markdown("""
+<style>
+    /* Main container styling */
+    .main {
+        background-color: #f9f9f9;
+    }
+    
+    /* Title Styling */
+    h1 {
+        color: #2c3e50;
+        text-align: center;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-weight: 700;
+        margin-bottom: 2rem;
+    }
+    
+    /* Headings */
+    h2, h3 {
+        color: #34495e;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+    
+    /* Metric Cards Styling */
+    div[data-testid="stMetric"] {
+        background-color: #ffffff;
+        border: 1px solid #e0e0e0;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    
+    /* Button Styling */
+    div.stButton > button {
+        background-color: #4CAF50;
+        color: white;
+        border-radius: 8px;
+        border: none;
+        padding: 10px 24px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    div.stButton > button:hover {
+        background-color: #45a049;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        transform: translateY(-1px);
+    }
+    
+    /* Sidebar Styling */
+    section[data-testid="stSidebar"] {
+        background-color: #f0f2f6;
+        border-right: 1px solid #d1d5db;
+    }
+    
+    /* Expander Styling */
+    .streamlit-expanderHeader {
+        background-color: #ffffff;
+        border-radius: 5px;
+    }
+</style>
+""", unsafe_allow_html=True)
+
 # Title and Description
 st.title("🩺 ML Model Analyser")
 
